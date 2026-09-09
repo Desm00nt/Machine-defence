@@ -22,7 +22,7 @@ public final class MachineStatus {
                 .then(Commands.literal("dashboard").executes(context -> dashboard(context.getSource()))));
     }
 
-    private static int dashboard(CommandSourceStack source) throws Exception {
+    private static int dashboard(CommandSourceStack source) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         int armor = player.getPersistentData().getInt("MachineDefenceArmor");
         if (armor <= 0) armor = 100;
