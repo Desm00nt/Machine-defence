@@ -2,7 +2,7 @@ package com.desm00nt.machinedefence;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ViewportEvent;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -12,7 +12,7 @@ public final class MachineClient {
     }
 
     @SubscribeEvent
-    public static void camera(ViewportEvent.ComputeCameraAngles event) {
+    public static void camera(EntityViewRenderEvent.CameraSetup event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null || minecraft.player == null) return;
         if (minecraft.level.dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL) return;
