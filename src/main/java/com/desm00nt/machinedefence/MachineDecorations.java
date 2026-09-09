@@ -16,7 +16,7 @@ public final class MachineDecorations {
     @SubscribeEvent
     public static void onEnter(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
-        if (event.getTo() != MachineDefence.MACHINE_DEFENCE_LEVEL) return;
+        if (!event.getTo().equals(MachineDefence.MACHINE_DEFENCE_LEVEL)) return;
         decorate((ServerLevel) player.level());
     }
 
@@ -25,6 +25,23 @@ public final class MachineDecorations {
             tree(level, -7, z);
             tree(level, 7, z + 8);
         }
+        shop(level);
+    }
+
+    private static void shop(ServerLevel level) {
+        // A small visible kiosk on the starter platform. The command shop is
+        // deliberately the first UI-independent implementation of its economy.
+        for (int x = -10; x <= -6; x++) {
+            for (int z = -10; z <= -7; z++) {
+                level.setBlock(new BlockPos(x, 65, z), Blocks.OAK_PLANKS.defaultBlockState(), 3);
+            }
+        }
+        for (int x = -10; x <= -6; x++) {
+            level.setBlock(new BlockPos(x, 66, -10), Blocks.OAK_LOG.defaultBlockState(), 3);
+            level.setBlock(new BlockPos(x, 66, -7), Blocks.OAK_LOG.defaultBlockState(), 3);
+        }
+        level.setBlock(new BlockPos(-8, 65, -8), Blocks.CHEST.defaultBlockState(), 3);
+        level.setBlock(new BlockPos(-8, 66, -10), Blocks.GOLD_BLOCK.defaultBlockState(), 3);
     }
 
     private static void tree(ServerLevel level, int x, int z) {
