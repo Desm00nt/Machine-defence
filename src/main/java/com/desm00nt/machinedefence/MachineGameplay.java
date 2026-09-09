@@ -9,7 +9,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -49,10 +48,27 @@ public final class MachineGameplay {
         give(player, new ItemStack(MachineBlocks.MACHINE_WHEEL.get(), 4));
         give(player, new ItemStack(MachineBlocks.MACHINE_ENGINE.get(), 1));
         give(player, new ItemStack(MachineBlocks.MACHINE_TURRET.get(), 1));
+        placeStarterMachine(player);
         player.getPersistentData().putBoolean(BUILT, true);
         player.getPersistentData().putInt(TURRETS, 1);
-        player.sendSystemMessage(Component.literal("Starter machine kit received: frame, wheels, engine, and one turret."));
+        player.sendSystemMessage(Component.literal("Starter machine built: frame, wheels, engine, and one turret."));
         return 1;
+    }
+
+    private static void placeStarterMachine(ServerPlayer player) {
+        int y = 65;
+        net.minecraft.server.level.ServerLevel level = (net.minecraft.server.level.ServerLevel) player.level();
+        for (int x = -2; x <= 2; x++) {
+            for (int z = -2; z <= 2; z++) {
+                level.setBlock(new BlockPos(x, y, z), MachineBlocks.MACHINE_FRAME.get().defaultBlockState(), 3);
+            }
+        }
+        level.setBlock(new BlockPos(-2, y + 1, -2), MachineBlocks.MACHINE_WHEEL.get().defaultBlockState(), 3);
+        level.setBlock(new BlockPos(2, y + 1, -2), MachineBlocks.MACHINE_WHEEL.get().defaultBlockState(), 3);
+        level.setBlock(new BlockPos(-2, y + 1, 2), MachineBlocks.MACHINE_WHEEL.get().defaultBlockState(), 3);
+        level.setBlock(new BlockPos(2, y + 1, 2), MachineBlocks.MACHINE_WHEEL.get().defaultBlockState(), 3);
+        level.setBlock(new BlockPos(0, y + 1, 0), MachineBlocks.MACHINE_ENGINE.get().defaultBlockState(), 3);
+        level.setBlock(new BlockPos(0, y + 2, 0), MachineBlocks.MACHINE_TURRET.get().defaultBlockState(), 3);
     }
 
     private static int shop(CommandSourceStack source) throws Exception {
