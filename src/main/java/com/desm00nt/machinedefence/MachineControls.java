@@ -23,7 +23,7 @@ public final class MachineControls {
                 .then(Commands.literal("center").executes(context -> steer(context.getSource(), -999.0D))));
     }
 
-    private static int steer(CommandSourceStack source, double amount) throws Exception {
+    private static int steer(CommandSourceStack source, double amount) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         if (player.level.dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL || player.getXRot() < 85.0F) {
             source.sendFailure(Component.literal("Start a Machine Defence run first."));
