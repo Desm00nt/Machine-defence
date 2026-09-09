@@ -19,6 +19,7 @@ A vehicle tower-defense prototype: build a machine kit, enter a flat arena, surv
 - boss rewards: 20 gold nuggets and 5 DNA;
 - turret shop for 10 gold nuggets;
 - DNA upgrades for armor and turret damage;
+- moving assembled machine block visual during the run;
 - death returns the player to the starter platform while keeping rewards;
 - Gradle 7.5.1 and ForgeGradle 5.1 configured in GitHub Actions for 1.19.2.
 
@@ -32,6 +33,7 @@ A vehicle tower-defense prototype: build a machine kit, enter a flat arena, surv
 /machinedefence right
 /machinedefence center
 /machinedefence status
+/machinedefence dashboard
 /machinedefence shop
 /machinedefence install-turret
 /machinedefence upgrade-armor
@@ -39,7 +41,7 @@ A vehicle tower-defense prototype: build a machine kit, enter a flat arena, surv
 /machinedefence stop
 ```
 
-The remaining polish pass is richer client UI/input and tuning. The server-side MVP gameplay loop is implemented as a playable prototype.
+The server-side MVP gameplay loop is implemented as a playable prototype. The remaining work is polish: richer client UI/input, balance tuning, and replacing prototype steering with a dedicated vehicle entity when the core loop is play-tested.
 
 ## Build
 
