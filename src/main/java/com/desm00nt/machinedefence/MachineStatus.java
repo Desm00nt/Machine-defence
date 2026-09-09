@@ -26,13 +26,14 @@ public final class MachineStatus {
         ServerPlayer player = source.getPlayerOrException();
         int armor = player.getPersistentData().getInt("MachineDefenceArmor");
         if (armor <= 0) armor = 100;
+        final int displayedArmor = armor;
         int dna = player.getPersistentData().getInt("MachineDefenceDNA");
         int turrets = player.getPersistentData().getInt("MachineDefenceTurrets");
         int gold = player.getInventory().countItem(Items.GOLD_NUGGET);
         int armorLevel = player.getPersistentData().getInt("MachineDefenceArmorLevel");
         int turretLevel = player.getPersistentData().getInt("MachineDefenceTurretLevel");
         source.sendSuccess(() -> Component.literal(
-                "Machine | armor " + armor + " | turrets " + turrets + " | gold " + gold
+                "Machine | armor " + displayedArmor + " | turrets " + turrets + " | gold " + gold
                         + " | DNA " + dna + " | upgrades A" + armorLevel + "/T" + turretLevel), false);
         return 1;
     }
