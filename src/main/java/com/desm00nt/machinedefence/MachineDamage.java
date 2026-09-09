@@ -2,6 +2,7 @@ package com.desm00nt.machinedefence;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,7 +36,7 @@ public final class MachineDamage {
         player.sendSystemMessage(Component.literal("Machine armor: " + armor + "/100"));
         if (armor == 0) {
             player.sendSystemMessage(Component.literal("The machine was destroyed!"));
-            player.hurt(player.level.damageSources().generic(), 1000.0F);
+            player.hurt(DamageSource.GENERIC, 1000.0F);
         }
     }
 }
