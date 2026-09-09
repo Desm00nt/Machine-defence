@@ -35,7 +35,7 @@ public final class MachineGameplay {
 
     private static int build(CommandSourceStack source) throws Exception {
         ServerPlayer player = source.getPlayerOrException();
-        if (player.level().dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL) {
+        if (player.level.dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL) {
             source.sendFailure(Component.literal("Enter Machine Defence first."));
             return 0;
         }
@@ -57,7 +57,7 @@ public final class MachineGameplay {
 
     private static void placeStarterMachine(ServerPlayer player) {
         int y = 65;
-        net.minecraft.server.level.ServerLevel level = (net.minecraft.server.level.ServerLevel) player.level();
+        net.minecraft.server.level.ServerLevel level = (net.minecraft.server.level.ServerLevel) player.level;
         for (int x = -2; x <= 2; x++) {
             for (int z = -2; z <= 2; z++) {
                 level.setBlock(new BlockPos(x, y, z), MachineBlocks.MACHINE_FRAME.get().defaultBlockState(), 3);
@@ -100,20 +100,20 @@ public final class MachineGameplay {
 
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || event.player.level().isClientSide) return;
+        if (event.phase != TickEvent.Phase.END || event.player.level.isClientSide) return;
         if (!(event.player instanceof ServerPlayer player)) return;
-        if (player.level().dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL) return;
+        if (player.level.dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL) return;
         if (player.getXRot() < 85.0F) return;
 
         int turrets = player.getPersistentData().getInt(TURRETS);
         if (turrets <= 0 || player.tickCount % 10 != 0) return;
-        List<Monster> enemies = player.level().getEntitiesOfClass(Monster.class,
+        List<Monster> enemies = player.level.getEntitiesOfClass(Monster.class,
                 player.getBoundingBox().inflate(18.0D),
                 mob -> mob.getPersistentData().getBoolean("MachineDefenceEnemy"));
         int shots = Math.min(turrets, enemies.size());
         float damage = 6.0F + player.getPersistentData().getInt("MachineDefenceTurretDamage");
         for (int i = 0; i < shots; i++) {
-            enemies.get(i).hurt(player.level().damageSources().playerAttack(player), damage);
+            enemies.get(i).hurt(player.level.damageSources().playerAttack(player), damage);
         }
     }
 

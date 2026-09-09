@@ -24,7 +24,6 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -57,14 +56,10 @@ public final class MachineDefence {
         public static void registerCommands(RegisterCommandsEvent event) {
             CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
             dispatcher.register(Commands.literal("machinedefence")
-                    .then(Commands.literal("enter")
-                            .executes(context -> enterDimension(context.getSource())))
-                    .then(Commands.literal("start")
-                            .executes(context -> startRun(context.getSource())))
-                    .then(Commands.literal("stop")
-                            .executes(context -> stopRun(context.getSource())))
-                    .then(Commands.literal("status")
-                            .executes(context -> status(context.getSource()))));
+                    .then(Commands.literal("enter").executes(context -> enterDimension(context.getSource())))
+                    .then(Commands.literal("start").executes(context -> startRun(context.getSource())))
+                    .then(Commands.literal("stop").executes(context -> stopRun(context.getSource())))
+                    .then(Commands.literal("status").executes(context -> status(context.getSource()))));
         }
 
         private static int enterDimension(CommandSourceStack source) throws Exception {
@@ -78,21 +73,21 @@ public final class MachineDefence {
             DRIVERS.remove(player.getUUID());
             player.changeDimension(target);
             player.teleportTo(target, 0.5D, 65.0D, 0.5D, 180.0F, 45.0F);
-            source.sendSuccess(() -> Component.literal("Entered Machine Defence. Use /machinedefence start."), true);
+            source.sendSuccess(Component.literal("Entered Machine Defence. Use /machinedefence start."), true);
             return 1;
         }
 
         private static int startRun(CommandSourceStack source) throws Exception {
             ServerPlayer player = source.getPlayerOrException();
-            if (player.level().dimension() != MACHINE_DEFENCE_LEVEL) {
+            if (player.level.dimension() != MACHINE_DEFENCE_LEVEL) {
                 source.sendFailure(Component.literal("Enter Machine Defence first."));
                 return 0;
             }
-            buildStarterArena((ServerLevel) player.level());
+            buildStarterArena((ServerLevel) player.level);
             DRIVERS.add(player.getUUID());
             DISTANCE.put(player.getUUID(), 0);
             WAVE.put(player.getUUID(), 0);
-            player.teleportTo((ServerLevel) player.level(), 0.5D, 65.0D, 16.0D, 180.0F, 90.0F);
+            player.teleportTo((ServerLevel) player.level, 0.5D, 65.0D, 16.0D, 180.0F, 90.0F);
             player.sendSystemMessage(Component.literal("Run started. The prototype vehicle is moving north. Use /machinedefence stop to return."));
             return 1;
         }
@@ -108,7 +103,7 @@ public final class MachineDefence {
             int distance = DISTANCE.getOrDefault(player.getUUID(), 0);
             int wave = WAVE.getOrDefault(player.getUUID(), 0);
             int dna = player.getPersistentData().getInt("MachineDefenceDNA");
-            source.sendSuccess(() -> Component.literal("Distance: " + distance + " | Wave: " + wave + " | DNA: " + dna), false);
+            source.sendSuccess(Component.literal("Distance: " + distance + " | Wave: " + wave + " | DNA: " + dna), false);
             return 1;
         }
 
@@ -118,9 +113,9 @@ public final class MachineDefence {
             MinecraftServer server = event.getServer();
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
                 UUID id = player.getUUID();
-                if (!DRIVERS.contains(id) || player.level().dimension() != MACHINE_DEFENCE_LEVEL) continue;
+                if (!DRIVERS.contains(id) || player.level.dimension() != MACHINE_DEFENCE_LEVEL) continue;
 
-                ServerLevel level = (ServerLevel) player.level();
+                ServerLevel level = (ServerLevel) player.level;
                 int distance = DISTANCE.merge(id, 1, Integer::sum);
                 int wave = Math.max(1, distance / 40 + 1);
                 WAVE.put(id, wave);
@@ -154,9 +149,9 @@ public final class MachineDefence {
             if (!DRIVERS.contains(player.getUUID())) return;
             if (!event.getEntity().getPersistentData().getBoolean("MachineDefenceEnemy")) return;
 
-            int gold = 1 + player.level().random.nextInt(3);
+            int gold = 1 + player.level.random.nextInt(3);
             player.addItem(new ItemStack(Items.GOLD_NUGGET, gold));
-            if (player.level().random.nextFloat() < 0.25F) {
+            if (player.level.random.nextFloat() < 0.25F) {
                 int dna = player.getPersistentData().getInt("MachineDefenceDNA") + 1;
                 player.getPersistentData().putInt("MachineDefenceDNA", dna);
                 player.sendSystemMessage(Component.literal("DNA +1 (total " + dna + ")"));
@@ -182,8 +177,8 @@ public final class MachineDefence {
             DRIVERS.remove(player.getUUID());
             DISTANCE.remove(player.getUUID());
             WAVE.remove(player.getUUID());
-            if (player.level().dimension() == MACHINE_DEFENCE_LEVEL) {
-                player.teleportTo((ServerLevel) player.level(), 0.5D, 65.0D, 0.5D, 180.0F, 45.0F);
+            if (player.level.dimension() == MACHINE_DEFENCE_LEVEL) {
+                player.teleportTo((ServerLevel) player.level, 0.5D, 65.0D, 0.5D, 180.0F, 45.0F);
             }
             player.sendSystemMessage(Component.literal(message));
         }

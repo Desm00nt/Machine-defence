@@ -18,14 +18,14 @@ public final class MachineDamage {
 
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || event.player.level().isClientSide) return;
+        if (event.phase != TickEvent.Phase.END || event.player.level.isClientSide) return;
         if (!(event.player instanceof ServerPlayer player)) return;
-        if (player.level().dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL) return;
+        if (player.level.dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL) return;
         if (player.getXRot() < 85.0F || player.tickCount % 20 != 0) return;
 
         int armor = player.getPersistentData().getInt(ARMOR);
         if (armor <= 0) armor = 100;
-        List<Monster> attackers = player.level().getEntitiesOfClass(Monster.class,
+        List<Monster> attackers = player.level.getEntitiesOfClass(Monster.class,
                 player.getBoundingBox().inflate(2.5D),
                 mob -> mob.getPersistentData().getBoolean("MachineDefenceEnemy"));
         if (attackers.isEmpty()) return;
@@ -35,7 +35,7 @@ public final class MachineDamage {
         player.sendSystemMessage(Component.literal("Machine armor: " + armor + "/100"));
         if (armor == 0) {
             player.sendSystemMessage(Component.literal("The machine was destroyed!"));
-            player.hurt(player.level().damageSources().generic(), 1000.0F);
+            player.hurt(player.level.damageSources().generic(), 1000.0F);
         }
     }
 }

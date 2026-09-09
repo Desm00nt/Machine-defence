@@ -18,12 +18,12 @@ public final class MachineBosses {
 
     @SubscribeEvent
     public static void spawnBoss(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || event.player.level().isClientSide) return;
+        if (event.phase != TickEvent.Phase.END || event.player.level.isClientSide) return;
         if (!(event.player instanceof ServerPlayer player)) return;
-        if (player.level().dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL) return;
+        if (player.level.dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL) return;
         if (player.getXRot() < 85.0F || player.tickCount % 600 != 0) return;
 
-        Husk boss = EntityType.HUSK.spawn((net.minecraft.server.level.ServerLevel) player.level(), null, null,
+        Husk boss = (Husk) EntityType.HUSK.spawn((net.minecraft.server.level.ServerLevel) player.level, null, null,
                 new BlockPos((int) player.getX(), 65, (int) player.getZ() + 14),
                 MobSpawnType.EVENT, true, false);
         if (boss == null) return;

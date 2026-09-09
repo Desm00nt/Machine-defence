@@ -32,7 +32,7 @@ public final class MachineStatus {
         int gold = player.getInventory().countItem(Items.GOLD_NUGGET);
         int armorLevel = player.getPersistentData().getInt("MachineDefenceArmorLevel");
         int turretLevel = player.getPersistentData().getInt("MachineDefenceTurretLevel");
-        source.sendSuccess(() -> Component.literal(
+        source.sendSuccess(Component.literal(
                 "Machine | armor " + displayedArmor + " | turrets " + turrets + " | gold " + gold
                         + " | DNA " + dna + " | upgrades A" + armorLevel + "/T" + turretLevel), false);
         return 1;

@@ -25,13 +25,13 @@ public final class MachineControls {
 
     private static int steer(CommandSourceStack source, double amount) throws Exception {
         ServerPlayer player = source.getPlayerOrException();
-        if (player.level().dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL || player.getXRot() < 85.0F) {
+        if (player.level.dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL || player.getXRot() < 85.0F) {
             source.sendFailure(Component.literal("Start a Machine Defence run first."));
             return 0;
         }
         double x = amount == -999.0D ? 0.5D : Math.max(-7.0D, Math.min(7.0D, player.getX() + amount));
-        player.teleportTo((net.minecraft.server.level.ServerLevel) player.level(), x, 65.0D, player.getZ(), 180.0F, 90.0F);
-        source.sendSuccess(() -> Component.literal("Machine steering: x=" + String.format("%.1f", x)), false);
+        player.teleportTo((net.minecraft.server.level.ServerLevel) player.level, x, 65.0D, player.getZ(), 180.0F, 90.0F);
+        source.sendSuccess(Component.literal("Machine steering: x=" + String.format("%.1f", x)), false);
         return 1;
     }
 }

@@ -22,12 +22,12 @@ public final class MachineVehicleVisuals {
 
     @SubscribeEvent
     public static void moveVehicle(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || event.player.level().isClientSide) return;
+        if (event.phase != TickEvent.Phase.END || event.player.level.isClientSide) return;
         if (!(event.player instanceof ServerPlayer player)) return;
-        if (player.level().dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL) return;
+        if (player.level.dimension() != MachineDefence.MACHINE_DEFENCE_LEVEL) return;
         if (player.getXRot() < 85.0F || player.tickCount % 4 != 0) return;
 
-        ServerLevel level = (ServerLevel) player.level();
+        ServerLevel level = (ServerLevel) player.level;
         BlockPos anchor = new BlockPos((int) Math.floor(player.getX()), 64, (int) Math.floor(player.getZ()));
         BlockPos previous = LAST_ANCHORS.put(player.getUUID(), anchor);
         if (anchor.equals(previous)) return;
