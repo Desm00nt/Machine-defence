@@ -20,7 +20,7 @@ A vehicle tower-defense prototype: build a machine kit, enter a flat arena, surv
 - turret shop for 10 gold nuggets;
 - DNA upgrades for armor and turret damage;
 - death returns the player to the starter platform while keeping rewards;
-- Gradle 8.8 installed explicitly in GitHub Actions with ForgeGradle 5.1 for 1.19.2.
+- Gradle 7.5.1 and ForgeGradle 5.1 configured in GitHub Actions for 1.19.2.
 
 ## Test commands
 
@@ -39,11 +39,11 @@ A vehicle tower-defense prototype: build a machine kit, enter a flat arena, surv
 /machinedefence stop
 ```
 
-The remaining polish pass is the true assembled moving-structure entity and richer client UI/input. The server-side MVP gameplay loop is implemented as a stable prototype while that entity layer is developed.
+The remaining polish pass is richer client UI/input and tuning. The server-side MVP gameplay loop is implemented as a playable prototype.
 
 ## Build
 
-Requires Java 17 and Gradle 8+.
+Requires Java 17 and Gradle 7.5.1+.
 
 ```bash
 gradle build
