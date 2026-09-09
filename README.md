@@ -2,16 +2,28 @@
 
 Minecraft Forge 1.19.2 / Forge 43.4.0.
 
-A vehicle-based tower-defense mod: build a machine, drive into an endless forest corridor, survive enemy waves, and upgrade with gold and DNA.
+Vehicle tower-defense mod: build a machine, drive into an endless forest corridor, survive enemy waves, and upgrade with gold and DNA.
 
-## Current milestone
+## Current playable prototype
 
-The first playable foundation is in progress. The repository currently contains:
+- custom flat `machinedefence:machine_defence` dimension;
+- 25x25 starter platform with three fog-glass walls;
+- corridor foundation and entrance;
+- registered Machine Frame, Machine Wheel, Machine Engine, and Machine Turret blocks;
+- `/machinedefence enter`, `/machinedefence start`, `/machinedefence stop`, and `/machinedefence status` commands;
+- server-authoritative prototype vehicle run with top-down pitch, distance, waves, zombies, gold nuggets, and chance-based DNA rewards;
+- death returns the player to the starter platform while keeping rewards.
 
-- Forge project bootstrap;
-- a custom flat `machinedefence:machine_defence` dimension;
-- `/machinedefence enter` for testing the dimension in-game;
-- GitHub Actions build workflow.
+## Test commands
+
+```text
+/machinedefence enter
+/machinedefence start
+/machinedefence status
+/machinedefence stop
+```
+
+The next pass connects the registered blocks to an actual assembled vehicle, turret targeting, shop UI, and the camera/movement client layer.
 
 ## Build
 
@@ -20,11 +32,3 @@ Requires Java 17 and Gradle 8+.
 ```bash
 gradle build
 ```
-
-## Planned MVP order
-
-1. Start platform and corridor boundary.
-2. Build-zone blocks and machine assembly.
-3. Controllable vehicle and top-down camera.
-4. First turret and enemy wave.
-5. Damage, rewards, death, and return to base.
