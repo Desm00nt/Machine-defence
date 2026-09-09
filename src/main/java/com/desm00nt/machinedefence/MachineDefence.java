@@ -24,7 +24,9 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,8 +47,8 @@ public final class MachineDefence {
     private static final Map<UUID, Integer> WAVE = new HashMap<>();
 
     public MachineDefence() {
-        // The MVP prototype is server-authoritative so it works in singleplayer
-        // and can later be replaced by the real assembled-vehicle entity.
+        MachineBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        MachineBlocks.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
