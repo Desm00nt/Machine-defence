@@ -18,6 +18,21 @@ jobs:
           gradle-version: '7.5.1'
       - name: Build
         run: gradle build --no-daemon --stacktrace --console=plain
+      - name: Forge server startup smoke test
+        shell: bash
+        run: |
+          set -u
+          mkdir -p run
+          printf 'eula=true\n' > run/eula.txt
+          set +e
+          timeout 120s gradle runServer --no-daemon --stacktrace --console=plain > run-server.log 2>&1
+          server_status=$?
+          set -e
+          cat run-server.log
+          if ! grep -q 'Done (' run-server.log; then
+            echo "Forge server did not reach the Done state (exit code: ${server_status})."
+            exit 1
+          fi
       - name: Upload jar
         if: success()
         uses: actions/upload-artifact@v4
