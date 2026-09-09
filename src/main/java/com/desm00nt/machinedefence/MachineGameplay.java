@@ -111,8 +111,9 @@ public final class MachineGameplay {
                 player.getBoundingBox().inflate(18.0D),
                 mob -> mob.getPersistentData().getBoolean("MachineDefenceEnemy"));
         int shots = Math.min(turrets, enemies.size());
+        float damage = 6.0F + player.getPersistentData().getInt("MachineDefenceTurretDamage");
         for (int i = 0; i < shots; i++) {
-            enemies.get(i).hurt(player.level().damageSources().playerAttack(player), 6.0F);
+            enemies.get(i).hurt(player.level().damageSources().playerAttack(player), damage);
         }
     }
 
