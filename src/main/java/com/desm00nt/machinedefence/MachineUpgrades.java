@@ -25,7 +25,7 @@ public final class MachineUpgrades {
                 .then(Commands.literal("upgrade-turret").executes(context -> upgradeTurret(context.getSource()))));
     }
 
-    private static int upgradeArmor(CommandSourceStack source) throws Exception {
+    private static int upgradeArmor(CommandSourceStack source) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         int dna = player.getPersistentData().getInt("MachineDefenceDNA");
         int level = player.getPersistentData().getInt(ARMOR_LEVEL);
@@ -41,7 +41,7 @@ public final class MachineUpgrades {
         return 1;
     }
 
-    private static int upgradeTurret(CommandSourceStack source) throws Exception {
+    private static int upgradeTurret(CommandSourceStack source) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         int dna = player.getPersistentData().getInt("MachineDefenceDNA");
         int level = player.getPersistentData().getInt(TURRET_LEVEL);
